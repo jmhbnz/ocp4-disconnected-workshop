@@ -63,7 +63,7 @@ Parameters:
   HighSideInstanceType:
     Description: The instance type to use for the High Side instance
     Type: String
-    Default: m5a.large
+    Default: m5a.xlarge
     AllowedValues:
       - t3.large
       - t3.xlarge
@@ -450,7 +450,7 @@ Resources:
           echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/01-disco-workshop.conf
           systemctl restart sshd
 
-          useradd -G systemd-journal lab-user 
+          useradd -G systemd-journal lab-user
           echo "${Password}" | passwd --stdin lab-user
           echo "lab-user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/50-lab-user
 
@@ -628,7 +628,7 @@ Resources:
           EOF
           systemctl restart sshd
 
-          useradd -G systemd-journal lab-user 
+          useradd -G systemd-journal lab-user
           echo "${Password}" | passwd --stdin lab-user
           echo "lab-user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/50-lab-user
 
@@ -804,7 +804,7 @@ Resources:
             }
           }
           EOF
-          
+
           touch /home/lab-user/homepage.html
           chown lab-user:lab-user /home/lab-user/homepage.html
 
@@ -908,7 +908,7 @@ Resources:
         - Key: Name
           Value: !Sub ${AWS::StackName}-highside
         - Key: AnsibleGroup
-          Value: highside          
+          Value: highside
         - Key: DnsName
           Value: highside
       UserData:
@@ -920,7 +920,7 @@ Resources:
           echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/01-disco-workshop.conf
           systemctl restart sshd
 
-          useradd -G systemd-journal lab-user 
+          useradd -G systemd-journal lab-user
           echo "${Password}" | passwd --stdin lab-user
           echo "lab-user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/50-lab-user
 
@@ -1002,7 +1002,7 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: !FindInMap ["RegionMap", !Ref "AWS::Region", "ami"]
-      InstanceType: !Ref HighSideInstanceType
+      InstanceType: m5a.xlarge
       IamInstanceProfile: !Ref DefaultInstanceProfile
       BlockDeviceMappings:
         - DeviceName: /dev/sda1
