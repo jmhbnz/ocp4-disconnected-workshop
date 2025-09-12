@@ -98,14 +98,17 @@ Parameters:
     Description: Base64 of the pull secret
     Type: String
 
-# aws ec2 describe-images --region us-east-2 --no-include-deprecated --filters Name=architecture,Values=x86_64 Name=name,Values=RHEL-9.3*Hourly* --owners amazon | jq -r '.Images | sort_by(.CreationDate) | .[] | [.ImageId, .Name, .CreationDate, .State]  | @tsv'
-# RHEL-9.3.0_HVM-20240229-x86_64-27-Hourly2-GP3
+# for region in us-east-1 us-east-2 us-west-1 us-west-2; do echo $region; aws ec2 describe-images --region $region --no-include-deprecated --filters Name=architecture,Values=x86_64 Name=name,Values=RHEL-9.6*Hourly* --owners amazon --output json | jq -r '.Images | sort_by(.CreationDate) | .[] | [.ImageId, .Name, .CreationDate, .State]  | @tsv'; done
 Mappings:
   RegionMap:
+    us-east-1:
+      ami: ami-00f1cb0e129bb040e
     us-east-2:
-      ami: ami-05e5be364adedee9c
+      ami: ami-0919ab58157b7ed85
+    us-west-1:
+      ami: ami-054f42fd684bb7451
     us-west-2:
-      ami: ami-0c2f1f1137a85327e
+      ami: ami-06fc763747998da87
 
 Conditions:
   GenerateS3BucketName: !Equals [!Ref S3TransferBucketName, autogenerate]
