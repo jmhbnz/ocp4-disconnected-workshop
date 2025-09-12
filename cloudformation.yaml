@@ -602,6 +602,10 @@ Resources:
 
           echo ${PullSecret} | base64 -d | tr "'" '"' > /home/lab-user/pull-secret-example.json
 
+          cat << EOF >> /etc/profile.d/z-color-shell.sh
+          PS1='[\[\e[44m\]\u@$NICKNAME\[\e[0m\] \W]\$ '
+          EOF
+
           cat << EOF >> /etc/tmux.conf
           set -g mouse on
           set -g status 3
@@ -898,6 +902,10 @@ Resources:
           yum update -y --security
           yum install -y unzip vim lvm2 podman tmux jq nano
 
+          cat << EOF >> /etc/profile.d/z-color-shell.sh
+          PS1='[\[\e[48;5;208m\]\u@$NICKNAME\[\e[0m\] \W]\$ '
+          EOF
+
           echo "set -g mouse on" >> /etc/tmux.conf
 
           # # Partition and mount data disk
@@ -1002,6 +1010,10 @@ Resources:
           # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/set-hostname.html#set-hostname-shell
           sed -i 's/\([[:blank:]]*\[[[:blank:]]"\$PS1"[[:blank:]]*=[[:blank:]]*".*\)\(\\h\)\(.*\)/\1$NICKNAME\3/g' /etc/bashrc
           echo "export NICKNAME=salsa" > /etc/profile.d/friendly_prompt.sh
+
+          cat << EOF >> /etc/profile.d/z-color-shell.sh
+          PS1='[\[\e[48;5;203m\]\u@$NICKNAME\[\e[0m\] \W]\$ '
+          EOF
 
           cat <<EOF > /etc/motd.d/salsa-cluster
           This instance manages the mirror registry and install of the salsa cluster. You can check the progress with:
