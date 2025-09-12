@@ -211,72 +211,6 @@ Resources:
       RouteTableId: !Ref PrivateRouteTable1
       SubnetId: !Ref PrivateSubnet1
 
-  PrivateSubnet2:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref Vpc
-      AvailabilityZone: !Select [1, !GetAZs  '']
-      CidrBlock: !Select [4, !Cidr [!Ref VpcCidr, 6, 12]]
-      MapPublicIpOnLaunch: false
-      Tags:
-        - Key: Name
-          Value: !Join ["-", [!Ref AWS::StackName, "private", !Select [1, !GetAZs  '']]]
-
-  PrivateRouteTable2:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref Vpc
-      Tags:
-        - Key: Name
-          Value: !Join ["-", [!Ref AWS::StackName, "private", !GetAtt PrivateSubnet2.AvailabilityZone]]
-
-  DefaultPrivateRoute2:
-    Type: AWS::EC2::Route
-    DependsOn: NatInstance
-    Properties:
-      RouteTableId: !Ref PrivateRouteTable2
-      DestinationCidrBlock: 0.0.0.0/0
-      InstanceId: !Ref NatInstance
-
-  PrivateSubnetRouteTableAssociation2:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref PrivateRouteTable2
-      SubnetId: !Ref PrivateSubnet2
-
-  PrivateSubnet3:
-    Type: AWS::EC2::Subnet
-    Properties:
-      VpcId: !Ref Vpc
-      AvailabilityZone: !Select [2, !GetAZs  '']
-      CidrBlock: !Select [5, !Cidr [!Ref VpcCidr, 6, 12]]
-      MapPublicIpOnLaunch: false
-      Tags:
-        - Key: Name
-          Value: !Join ["-", [!Ref AWS::StackName, "private", !Select [2, !GetAZs  '']]]
-
-  PrivateRouteTable3:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref Vpc
-      Tags:
-        - Key: Name
-          Value: !Join ["-", [!Ref AWS::StackName, "private", !GetAtt PrivateSubnet3.AvailabilityZone]]
-
-  DefaultPrivateRoute3:
-    Type: AWS::EC2::Route
-    DependsOn: NatInstance
-    Properties:
-      RouteTableId: !Ref PrivateRouteTable3
-      DestinationCidrBlock: 0.0.0.0/0
-      InstanceId: !Ref NatInstance
-
-  PrivateSubnetRouteTableAssociation3:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref PrivateRouteTable3
-      SubnetId: !Ref PrivateSubnet3
-
   DefaultInstanceRole:
     Type: AWS::IAM::Role
     DependsOn: InstallIamUser
@@ -1099,7 +1033,7 @@ Outputs:
 
   PrivateSubnets:
     Description: A list of the private subnets
-    Value: !Join [",", [!Ref PrivateSubnet1, !Ref PrivateSubnet2, !Ref PrivateSubnet3]]
+    Value: !Join [",", [!Ref PrivateSubnet1]]
 
   PublicSubnet1:
     Description: A reference to the public subnet
@@ -1108,14 +1042,6 @@ Outputs:
   PrivateSubnet1:
     Description: A reference to the private subnet in the 1st Availability Zone
     Value: !Ref PrivateSubnet1
-
-  PrivateSubnet2:
-    Description: A reference to the private subnet in the 2nd Availability Zone
-    Value: !Ref PrivateSubnet2
-
-  PrivateSubnet3:
-    Description: A reference to the private subnet in the 3rd Availability Zone
-    Value: !Ref PrivateSubnet3
 
   S3TransferBucket:
     Description: A reference to the S3 transfer bucket
