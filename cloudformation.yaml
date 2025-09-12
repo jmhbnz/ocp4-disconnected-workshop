@@ -1,7 +1,6 @@
 Description: >
   This template is used to simulate a disconnected environment. It deploys a
-  VPC with a single public subnet and three (3) private subnets, spread across
-  three (3) Availability Zones. It deploys an internet gateway, with a default
+  VPC with a single public subnet and one private subnet. It deploys an internet gateway, with a default
   route on the public subnet. A NAT instance running a Squid proxy is deployed
   in the public subnet and is configured to block all traffic except for access
   to the AWS APIs. The NAT instance is configured as the default route for the
@@ -47,9 +46,9 @@ Parameters:
     Type: String
     Default: m5a.large
     AllowedValues:
-      - t3.small   #2vCPU & 2GiB - too small for GNOME + VNC + Firefox
-      - t3.medium  #2vCPU & 4GiB
-      - t3.large   #2vCPU & 8GiB
+      - t3.small #2vCPU & 2GiB - too small for GNOME + VNC + Firefox
+      - t3.medium #2vCPU & 4GiB
+      - t3.large #2vCPU & 8GiB
       - m4.large
       - m4.xlarge
       - m5.large
@@ -145,7 +144,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref Vpc
-      AvailabilityZone: !Select [0, !GetAZs '']
+      AvailabilityZone: !Select [0, !GetAZs ""]
       CidrBlock: !Select [0, !Cidr [!Ref VpcCidr, 6, 12]]
       MapPublicIpOnLaunch: true
       Tags:
@@ -182,12 +181,16 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref Vpc
-      AvailabilityZone: !Select [0, !GetAZs  '']
+      AvailabilityZone: !Select [0, !GetAZs ""]
       CidrBlock: !Select [3, !Cidr [!Ref VpcCidr, 6, 12]]
       MapPublicIpOnLaunch: false
       Tags:
         - Key: Name
-          Value: !Join ["-", [!Ref AWS::StackName, "private", !Select [0, !GetAZs  '']]]
+          Value:
+            !Join [
+              "-",
+              [!Ref AWS::StackName, "private", !Select [0, !GetAZs ""]],
+            ]
 
   PrivateRouteTable1:
     Type: AWS::EC2::RouteTable
@@ -195,7 +198,15 @@ Resources:
       VpcId: !Ref Vpc
       Tags:
         - Key: Name
-          Value: !Join ["-", [!Ref AWS::StackName, "private", !GetAtt PrivateSubnet1.AvailabilityZone]]
+          Value:
+            !Join [
+              "-",
+              [
+                !Ref AWS::StackName,
+                "private",
+                !GetAtt PrivateSubnet1.AvailabilityZone,
+              ],
+            ]
 
   DefaultPrivateRoute1:
     Type: AWS::EC2::Route
@@ -224,7 +235,7 @@ Resources:
               Service:
                 - ec2.amazonaws.com
             Action:
-              - 'sts:AssumeRole'
+              - "sts:AssumeRole"
       Path: /
       Policies:
         - PolicyName: root
@@ -236,18 +247,26 @@ Resources:
                   - s3:*
                 Resource:
                   - !Join
-                      - ""
-                      - - "arn:aws:s3:::"
-                        - !If [GenerateS3BucketName, !Sub "ocp4-disconnected-${AWS::AccountId}-${AWS::Region}", !Ref S3TransferBucketName]
+                    - ""
+                    - - "arn:aws:s3:::"
+                      - !If [
+                          GenerateS3BucketName,
+                          !Sub "ocp4-disconnected-${AWS::AccountId}-${AWS::Region}",
+                          !Ref S3TransferBucketName,
+                        ]
               - Effect: Allow
                 Action:
                   - s3:*
                 Resource:
                   - !Join
-                      - ""
-                      - - "arn:aws:s3:::"
-                        - !If [GenerateS3BucketName, !Sub "ocp4-disconnected-${AWS::AccountId}-${AWS::Region}", !Ref S3TransferBucketName]
-                        - "/*"
+                    - ""
+                    - - "arn:aws:s3:::"
+                      - !If [
+                          GenerateS3BucketName,
+                          !Sub "ocp4-disconnected-${AWS::AccountId}-${AWS::Region}",
+                          !Ref S3TransferBucketName,
+                        ]
+                      - "/*"
               - Effect: Allow
                 Action:
                   - iam:CreateAccessKey
@@ -296,7 +315,7 @@ Resources:
               Service:
                 - ec2.amazonaws.com
             Action:
-              - 'sts:AssumeRole'
+              - "sts:AssumeRole"
       Path: /
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM
@@ -1024,7 +1043,12 @@ Resources:
     Type: AWS::S3::Bucket
     DeletionPolicy: Delete
     Properties:
-      BucketName: !If [GenerateS3BucketName, !Sub "${AWS::StackName}-${AWS::AccountId}-${AWS::Region}", !Ref S3TransferBucketName]
+      BucketName:
+        !If [
+          GenerateS3BucketName,
+          !Sub "${AWS::StackName}-${AWS::AccountId}-${AWS::Region}",
+          !Ref S3TransferBucketName,
+        ]
 
 Outputs:
   Vpc:
