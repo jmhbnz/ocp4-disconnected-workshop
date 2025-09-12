@@ -596,15 +596,15 @@ Resources:
           sed -i 's/\([[:blank:]]*\[[[:blank:]]"\$PS1"[[:blank:]]*=[[:blank:]]*".*\)\(\\h\)\(.*\)/\1$NICKNAME\3/g' /etc/bashrc
           echo "export NICKNAME=jump" > /etc/profile.d/friendly_prompt.sh
 
+          cat << EOF >> /etc/profile.d/z-color-shell.sh
+          PS1='[\[\e[44m\]\u@\$NICKNAME\[\e[0m\] \W]\$ '
+          EOF
+
           # Apply the latest security patches
           yum update -y --security
           yum install -y unzip vim lvm2 git podman tmux jq bind-utils nano
 
           echo ${PullSecret} | base64 -d | tr "'" '"' > /home/lab-user/pull-secret-example.json
-
-          cat << EOF >> /etc/profile.d/z-color-shell.sh
-          PS1='[\[\e[44m\]\u@$NICKNAME\[\e[0m\] \W]\$ '
-          EOF
 
           cat << EOF >> /etc/tmux.conf
           set -g mouse on
@@ -894,6 +894,10 @@ Resources:
           sed -i 's/\([[:blank:]]*\[[[:blank:]]"\$PS1"[[:blank:]]*=[[:blank:]]*".*\)\(\\h\)\(.*\)/\1$NICKNAME\3/g' /etc/bashrc
           echo "export NICKNAME=highside" > /etc/profile.d/friendly_prompt.sh
 
+          cat << EOF >> /etc/profile.d/z-color-shell.sh
+          PS1='[\[\e[48;5;208m\]\u@\$NICKNAME\[\e[0m\] \W]\$ '
+          EOF
+
           # set up certificates
           cp -v /etc/pki/rhui/cdn.redhat.com-chain.crt /etc/pki/ca-trust/source/anchors/
           update-ca-trust
@@ -901,10 +905,6 @@ Resources:
           # Apply the latest security patches
           yum update -y --security
           yum install -y unzip vim lvm2 podman tmux jq nano
-
-          cat << EOF >> /etc/profile.d/z-color-shell.sh
-          PS1='[\[\e[48;5;208m\]\u@$NICKNAME\[\e[0m\] \W]\$ '
-          EOF
 
           echo "set -g mouse on" >> /etc/tmux.conf
 
@@ -1012,7 +1012,7 @@ Resources:
           echo "export NICKNAME=salsa" > /etc/profile.d/friendly_prompt.sh
 
           cat << EOF >> /etc/profile.d/z-color-shell.sh
-          PS1='[\[\e[48;5;203m\]\u@$NICKNAME\[\e[0m\] \W]\$ '
+          PS1='[\[\e[48;5;203m\]\u@\$NICKNAME\[\e[0m\] \W]\$ '
           EOF
 
           cat <<EOF > /etc/motd.d/salsa-cluster
