@@ -122,7 +122,7 @@ WARNING: Using insecure TLS client config. Setting this option is not supported!
 
 Login successful.
 
-You have access to 68 projects, the list has been suppressed. You can list all projects with 'oc projects'
+You have access to 73 projects, the list has been suppressed. You can list all projects with 'oc projects'
 
 Using project "default".
 Welcome! See 'oc help' to get started.
@@ -200,7 +200,7 @@ But the __sources__, which are YAML files tell OpenShift where to find the __cat
 === Add custom CatalogSources
 
 [NOTE]
-In a disconnected environment, https://docs.openshift.com/container-platform/4.14/installing/installing_aws/installing-restricted-networks-aws-installer-provisioned.html#olm-restricted-networks-operatorhub_installing-restricted-networks-aws-installer-provisioned[you must disable the default `CatalogSources`].
+In a disconnected environment, https://docs.openshift.com/container-platform/4.18/installing/installing_aws/installing-restricted-networks-aws-installer-provisioned.html#olm-restricted-networks-operatorhub_installing-restricted-networks-aws-installer-provisioned[you must disable the default `CatalogSources`].
 
 The default `CatalogSources` can be disabled individually, or all at once.
 The command below will disable all of the default __sources__ in a single command.
@@ -265,10 +265,10 @@ The terminal includes all of the standard `oc`, `kubectl`, `helm`, and `bash` to
 image::operator-web-terminal.png[Screenshot of the Web Terminal Operator installed and running]
 
 // == Add images with `podman`
-// https://docs.openshift.com/container-platform/4.14/post_installation_configuration/cluster-tasks.html#post-install-must-gather-disconnected
+// https://docs.openshift.com/container-platform/4.18/post_installation_configuration/cluster-tasks.html#post-install-must-gather-disconnected
 
 // == Remove default samples operator
-// https://docs.openshift.com/container-platform/4.14/openshift_images/configuring-samples-operator.html#configuring-samples-operator
+// https://docs.openshift.com/container-platform/4.18/openshift_images/configuring-samples-operator.html#configuring-samples-operator
 
 == Update your cluster
 
@@ -326,11 +326,11 @@ The username / password for the [.highside]#highside# `mirror-registry` is `init
 --
 
 //   Applying a release (by tag) without checking signatures    //
-// [lab-user@highside ~]$ oc adm upgrade --to-image=ip-10-0-15-131.us-west-2.compute.internal:8443/openshift/release-images:4.14.20-x86_64 --force --allow-explicit-upgrade
+// [lab-user@highside ~]$ oc adm upgrade --to-image=ip-10-0-15-131.us-west-2.compute.internal:8443/openshift/release-images:4.18.20-x86_64 --force --allow-explicit-upgrade
 // warning: Using by-tag pull specs is dangerous, and while we still allow it in combination with --force for backward compatibility, it would be much safer to pass a by-digest pull spec instead
 // warning: The requested upgrade image is not one of the available updates. You have used --allow-explicit-upgrade for the update to proceed anyway
 // warning: --force overrides cluster verification of your supplied release image and waives any update precondition failures.
-// Requested update to release image ip-10-0-15-131.us-west-2.compute.internal:8443/openshift/release-images:4.14.20-x86_64
+// Requested update to release image ip-10-0-15-131.us-west-2.compute.internal:8443/openshift/release-images:4.18.20-x86_64
 
 // TODO add callout for other upgrade methods
 // TODO talk about getting release image digest from mirror registry directly
@@ -340,7 +340,7 @@ The username / password for the [.highside]#highside# `mirror-registry` is `init
 podman login -u init -p salsapass $(hostname):8443
 podman login -u init -p discopass $(hostname):8443
 
-DIGEST=$(oc image info -o json $HOSTNAME:8443/openshift/release-images:4.14.20-x86_64 | jq -r .contentDigest)
+DIGEST=$(oc image info -o json $HOSTNAME:8443/openshift/release-images:4.18.20-x86_64 | jq -r .contentDigest)
 oc adm upgrade --to-image=quay.io/openshift-release-dev/ocp-release@$DIGEST --allow-explicit-upgrade
 ----
 [.output]
@@ -373,7 +373,7 @@ oc get clusterversion
 [.output]
 ----
 NAME      VERSION   AVAILABLE   PROGRESSING   SINCE   STATUS
-version   4.14.18   True        True          50s     Working towards 4.14.19: 116 of 860 done (13% complete), waiting on etcd, kube-apiserver
+version   4.18.24   True        True          50s     Working towards 4.18.25: 116 of 860 done (13% complete), waiting on etcd, kube-apiserver
 ----
 
 [.salsa,source,bash,role=execute]
@@ -383,12 +383,12 @@ watch oc get clusteroperators
 [.output]
 ----
 NAME                      VERSION   AVAILABLE   PROGRESSING   DEGRADED   SINCE   MESSAGE
-authentication            4.14.19   True        False         False      3h5m    
+authentication            4.18.25   True        False         False      3h5m
 ...
-console                   4.14.19   True        False         False      3h16m   
+console                   4.18.25   True        False         False      3h16m
 ...
-kube-apiserver            4.14.20   True        False         False      3h23m   
-kube-controller-manager   4.14.19   True        True          False      3h25m   NodeInstallerProgressing: 1 nodes are at revision 6; 0 nodes have achieved new revision 7
-kube-scheduler            4.14.19   True        True          False      3h25m   NodeInstallerProgressing: 1 nodes are at revision 7; 0 nodes have achieved new revision 8...
+kube-apiserver            4.18.25   True        False         False      3h23m
+kube-controller-manager   4.18.25   True        True          False      3h25m   NodeInstallerProgressing: 1 nodes are at revision 6; 0 nodes have achieved new revision 7
+kube-scheduler            4.18.25   True        True          False      3h25m   NodeInstallerProgressing: 1 nodes are at revision 7; 0 nodes have achieved new revision 8...
 ...
 ----

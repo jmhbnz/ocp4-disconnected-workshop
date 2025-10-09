@@ -57,10 +57,10 @@ rsync -avP /mnt/low-side-data/mirror-registry.tar.gz highside:/mnt/high-side-dat
 Warning: Permanently added 'highside' (ED25519) to the list of known hosts.
 sending incremental file list
 mirror-registry.tar.gz
-    706,802,330 100%  133.34MB/s    0:00:05 (xfr#1, to-chk=0/1)
+    602,655,289 100%   74.85MB/s    0:00:07 (xfr#1, to-chk=0/1)
 
-sent 706,975,008 bytes  received 35 bytes  128,540,916.91 bytes/sec
-total size is 706,802,330  speedup is 1.00
+sent 602,802,543 bytes  received 35 bytes  70,917,950.35 bytes/sec
+total size is 602,655,289  speedup is 1.00
 ----
 
 === Logging in to the highside system
@@ -79,7 +79,7 @@ ssh highside
 ----
 [lab-user@jump ~]$ ssh highside
 Warning: Permanently added 'highside' (ED25519) to the list of known hosts.
-Last login: Wed May  1 07:56:13 2024 from 10.0.6.23
+Last login: Wed Oct  8 23:29:04 2025 from 10.0.12.213
 [lab-user@highside ~]$
 ----
 
@@ -109,8 +109,8 @@ The only option that we will provide is one to set the password for the `init` u
 [.output]
 ----
 ...
-INFO[2024-05-04 15:43:41] Quay installed successfully, config data is stored in /home/lab-user/quay-install
-INFO[2024-05-04 15:43:41] Quay is available at https://ip-10-0-51-47.ec2.internal:8443 with credentials (init, discopass)
+INFO[2025-10-08 23:57:30] Quay installed successfully, config data is stored in ~/quay-install
+INFO[2025-10-08 23:57:30] Quay is available at https://ip-10-0-56-192.ap-southeast-1.compute.internal:8443 with credentials (init, discopass)
 ----
 
 [NOTE]
@@ -177,9 +177,9 @@ You can confirm the download finished by looking in your `tmux` pane to see if y
 [.output]
 ----
 ...
-info: Mirroring completed in 2m47.63s (135.1MB/s)
+info: Mirroring completed in 14m12.12s (52.55MB/s)
 Creating archive /mnt/low-side-data/mirror_seq1_000000.tar
-[lab-user@jump low-side-data]$ 
+[lab-user@jump low-side-data]$
 ----
 
 After the `oc-mirror` command has completed, use `rsync` on the [.lowside]#jump# system to copy the installation content into `/mnt/high-side-data` on the [.highside]#highside# system.
@@ -210,10 +210,10 @@ mirror_seq1_000000.tar
 
 publish/
 publish/.metadata.json
-        332,183 100%  332.37kB/s    0:00:00 (xfr#66, to-chk=0/127)
+        573,524 100%  655.83kB/s    0:00:00 (xfr#54, to-chk=0/112)
 
-sent 30,795,621,525 bytes  received 1,565 bytes  131,324,618.72 bytes/sec
-total size is 30,788,095,434  speedup is 1.00
+sent 49,601,464,493 bytes  received 1,305 bytes  102,588,347.05 bytes/sec
+total size is 50,192,004,929  speedup is 1.01
 ----
 
 == Prove that highside is disconnected [[prove-disconnected]]
@@ -253,7 +253,7 @@ curl -I quay.io
 ----
 HTTP/1.1 403 Forbidden
 Server: squid/5.5
-Date: Mon, 29 Apr 2024 20:08:15 GMT
+Date: Thu, 09 Oct 2025 00:48:08 GMT
 X-Squid-Error: ERR_ACCESS_DENIED 0
 ----
 
@@ -267,7 +267,7 @@ curl -I https://rhui.{aws_default_region}.aws.ce.redhat.com
 ----
 HTTP/1.1 200 OK
 Server: nginx/1.20.1
-Date: Mon, 29 Apr 2024 20:15:51 GMT
+Date: Thu, 09 Oct 2025 00:48:49 GMT
 ----
 
 If you skipped ahead to prove that the [.highside]#highside systems# are really disconnected while the `oc-mirror` download was still working, it's time to go back to <<rsync-content>>.
@@ -310,23 +310,25 @@ oc-mirror --from=/mnt/high-side-data/mirror_seq1_000000.tar docker://$(hostname)
 ----
 [.output]
 ----
-Logging to .oc-mirror.log
-Checking push permissions for ip-10-0-54-198.us-west-2.compute.internal:8443
-Publishing image set from archive "/mnt/high-side-data/mirror_seq1_000000.tar" to registry "ip-10-0-54-198.us-west-2.compute.internal:8443"
-ip-10-0-54-198.us-west-2.compute.internal:8443/
+W1009 01:24:56.827617   37859 mirror.go:102]
+
+⚠️  oc-mirror v1 is deprecated (starting in 4.18 release) and will be removed in a future release - please migrate to oc-mirror --v2
+
+Checking push permissions for ip-10-0-56-192.ap-southeast-1.compute.internal:8443
+Publishing image set from archive "/mnt/high-side-data/mirror_seq1_000000.tar" to registry "ip-10-0-56-192.ap-southeast-1.compute.internal:8443"
+ip-10-0-56-192.ap-southeast-1.compute.internal:8443/
   openshift/release
     blobs:
-      file://openshift/release sha256:d8190195889efb5333eeec18af9b6c82313edd4db62989bd3a357caca4f13f0e 1.404KiB
-      file://openshift/release sha256:cd8c26ed660bfc4447a17563df1dc5374f1cbd2ced1d7ae0af135fabaff1f7d2 17.86KiB
+      file://openshift/release sha256:a1edca13087b34e32f77a4698096f3aa3fef4d65a34515d5b68f5e7229cdf483 22.73KiB
+      file://openshift/release sha256:afa798da1eea334bab3cb1e14451ff84f98d35b436cdc4b408b46e289e4e2bc2 8.878MiB
 
 ... a long, mind-expanding, upload ...
 
 info: Mirroring completed in 18m10.33s (39.33MB/s)
-Rendering catalog image "ip-10-0-8-121.us-west-2.compute.internal:8443/redhat/redhat-operator-index:v4.14" with file-based catalog 
-Writing image mapping to oc-mirror-workspace/results-1714533240/mapping.txt
-Writing UpdateService manifests to oc-mirror-workspace/results-1714533240
-Writing CatalogSource manifests to oc-mirror-workspace/results-1714533240
-Writing ICSP manifests to oc-mirror-workspace/results-1714533240
+Rendering catalog image "ip-10-0-56-192.ap-southeast-1.compute.internal:8443/redhat/redhat-operator-index:v4.18" with file-based catalog
+Writing image mapping to oc-mirror-workspace/results-1759973097/mapping.txt
+Writing CatalogSource manifests to oc-mirror-workspace/results-1759973097
+Writing ICSP manifests to oc-mirror-workspace/results-1759973097
 
 [lab-user@highside ~]$ 
 ----

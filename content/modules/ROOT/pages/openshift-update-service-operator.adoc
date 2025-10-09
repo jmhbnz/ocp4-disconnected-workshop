@@ -9,11 +9,11 @@ Please be patient, and leave your feedback on how it can be improved.
 
 == Overview
 
-The https://docs.openshift.com/container-platform/4.14/updating/updating_a_cluster/updating_disconnected_cluster/disconnected-update-osus.html[OpenShift Update Service Operator (OSUS)] provides a fleet of disconnected OpenShift clusters with centralized updates.
+The https://docs.openshift.com/container-platform/4.18/updating/updating_a_cluster/updating_disconnected_cluster/disconnected-update-osus.html[OpenShift Update Service Operator (OSUS)] provides a fleet of disconnected OpenShift clusters with centralized updates.
 
 Red Hat maintains an update __"graph"__ that describes the supported, **and blocked**, paths when upgrading an older version of OpenShift to a newer one.
-For example, the __graph__ allows clusters to upgrade directly from version `4.14.0` to `4.14.20`.
-However, clusters that are running OpenShift version `4.13.0` are instructed, by the __graph__, to first update to `4.13.39` before applying the `4.14.20` update.
+For example, the __graph__ allows clusters to upgrade directly from version `4.18.0` to `4.18.20`.
+However, clusters that are running OpenShift version `4.17.0` are instructed, by the __graph__, to first update to `4.17.40` before applying the `4.18.25` update.
 
 `oc-mirror` will download the __graph__ data if the `ImageSetConfiguration` sets `mirror.platform.graph: true`
 
@@ -31,12 +31,12 @@ mirror:
   platform:
     graph: true   # <-- this is required for OpenShift Update Service
     channels:
-      - name: stable-4.13
-        minVersion: 4.13.0
-        maxVersion: 4.13.40
-      - name: stable-4.14
-        minVersion: 4.14.0
-        maxVersion: 4.14.22
+      - name: stable-4.17
+        minVersion: 4.17.0
+        maxVersion: 4.17.40
+      - name: stable-4.18
+        minVersion: 4.18.0
+        maxVersion: 4.18.25
   ...
 ----
 
@@ -324,15 +324,15 @@ oc adm upgrade
 ----
 [.output]
 ----
-Cluster version is 4.14.19
+Cluster version is 4.18.25
 
 Upstream: https://update-service-oc-mirror-route-openshift-update-service.apps.salsa.lab/api/upgrades_info/v1/graph
-Channel: stable-4.14 (available channels: candidate-4.14, candidate-4.15, eus-4.14, fast-4.14, fast-4.15, stable-4.14, stable-4.15)
+Channel: stable-4.18 (available channels: candidate-4.18, candidate-4.19, eus-4.18, fast-4.18, fast-4.19, stable-4.18, stable-4.19)
 
 Recommended updates:
 
   VERSION     IMAGE
-  4.14.20     ip-10-0-6-85.us-west-2.compute.internal:8443/openshift/release-images@sha256:e64464879cd1acdfa7112c1ac1d90039e1689189e0af197f34881c79decda933
+  4.18.25     ip-10-0-6-85.us-west-2.compute.internal:8443/openshift/release-images@sha256:e64464879cd1acdfa7112c1ac1d90039e1689189e0af197f34881c79decda933
 ----
 
 [NOTE]
