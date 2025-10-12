@@ -200,7 +200,7 @@ But the __sources__, which are YAML files tell OpenShift where to find the __cat
 === Add custom CatalogSources
 
 [NOTE]
-In a disconnected environment, https://docs.openshift.com/container-platform/4.18/installing/installing_aws/installing-restricted-networks-aws-installer-provisioned.html#olm-restricted-networks-operatorhub_installing-restricted-networks-aws-installer-provisioned[you must disable the default `CatalogSources`].
+In a disconnected environment, https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html-single/disconnected_environments/index#olm-restricted-networks-operatorhub_olm-restricted-networks[you must disable the default `CatalogSources`].
 
 The default `CatalogSources` can be disabled individually, or all at once.
 The command below will disable all of the default __sources__ in a single command.
