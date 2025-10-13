@@ -11,12 +11,13 @@ asciidoc:
     openshift_channel: stable-4.18
     openshift_min_version: 4.18.24
     openshift_max_version: 4.18.25
+    mirror_registry_version: 2.0.7
 
     page-pagination: true
     page-links:
-    - url: https://github.com/naps-product-sa/ocp4-disconnected-workshop
-      text: Lab Guide Source
-    - url: https://redhat.com
-      text: Red Hat
-    - url: https://www.redhat.com/en/summit
-      text: Summit
+      - url: https://github.com/naps-product-sa/ocp4-disconnected-workshop
+        text: Lab Guide Source
+      - url: https://redhat.com
+        text: Red Hat
+      - url: https://www.redhat.com/en/summit
+        text: Summit

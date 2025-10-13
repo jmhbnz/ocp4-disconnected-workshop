@@ -116,7 +116,7 @@ sudo cp -v oc-mirror /bin
 
 [.lowside,source,bash,role=execute]
 ----
-curl -L -o mirror-registry.tar.gz https://mirror.openshift.com/pub/cgw/mirror-registry/latest/mirror-registry-amd64.tar.gz
+curl -L -o mirror-registry.tar.gz https://mirror.openshift.com/pub/cgw/mirror-registry/{mirror_registry_version}/mirror-registry-amd64.tar.gz
 ----
 
 * `openshift-install`: The OpenShift Installer
@@ -238,7 +238,7 @@ mirror:
     - name: web-terminal
       channels:
       - name: fast
-  
+
   additionalImages:
   - name: registry.redhat.io/rhel8/support-tools
 
