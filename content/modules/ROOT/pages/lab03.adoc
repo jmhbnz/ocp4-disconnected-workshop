@@ -97,6 +97,7 @@ tar -xzvf mirror-registry.tar.gz
 image-archive.tar
 execution-environment.tar
 mirror-registry
+sqlite3.tar
 ----
 
 The automation that installs and configures the `mirror-registry` takes ~5 minutes to complete.
@@ -108,6 +109,18 @@ The only option that we will provide is one to set the password for the `init` u
 ----
 [.output]
 ----
+   __   __
+  /  \ /  \     ______   _    _     __   __   __
+ / /\ / /\ \   /  __  \ | |  | |   /  \  \ \ / /
+/ /  / /  \ \  | |  | | | |  | |  / /\ \  \   /
+\ \  \ \  / /  | |__| | | |__| | / ____ \  | |
+ \ \/ \ \/ /   \_  ___/  \____/ /_/    \_\ |_|
+  \__/ \__/      \ \__
+                  \___\ by Red Hat
+ Build, Store, and Distribute your Containers
+
+INFO[2025-10-08 23:53:10] Install has begun
+
 ...
 INFO[2025-10-08 23:57:30] Quay installed successfully, config data is stored in ~/quay-install
 INFO[2025-10-08 23:57:30] Quay is available at https://ip-10-0-56-192.ap-southeast-1.compute.internal:8443 with credentials (init, discopass)
@@ -292,7 +305,7 @@ sudo mv -v /mnt/high-side-data/openshift-install /bin/
 renamed '/mnt/high-side-data/oc' -> '/bin/oc'
 renamed '/mnt/high-side-data/oc-mirror' -> '/bin/oc-mirror'
 renamed '/mnt/high-side-data/openshift-install' -> '/bin/openshift-install'
-[lab-user@highside ~]$ 
+[lab-user@highside ~]$
 ----
 
 With the mirroring tools installed and configured, it is now time to run `oc-mirror` again, this time on the [.highside]#highside# system, to __upload__ the installation images in to the `mirror-registry`.
@@ -330,7 +343,7 @@ Writing image mapping to oc-mirror-workspace/results-1759973097/mapping.txt
 Writing CatalogSource manifests to oc-mirror-workspace/results-1759973097
 Writing ICSP manifests to oc-mirror-workspace/results-1759973097
 
-[lab-user@highside ~]$ 
+[lab-user@highside ~]$
 ----
 
 [TIP]

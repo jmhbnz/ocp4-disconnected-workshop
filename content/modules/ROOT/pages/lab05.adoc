@@ -101,7 +101,7 @@ ssh highside
 ----
 [.highside,source,bash,role=execute]
 ----
-oc login https://api.disco.lab:6443 --username kubeadmin 
+oc login https://api.disco.lab:6443 --username kubeadmin
 ----
 
 //|
@@ -148,7 +148,7 @@ If you are trying to connect to your [.highside]#disco.lab# cluster, and see an 
 [NOTE]
 --
 The web-based VNC client (`noVNC`) is a bit klunky with **copy** and **paste**.
-You can copy and paste into the desktop using __noVNC__'s tool ribbon (hidden by default.) 
+You can copy and paste into the desktop using __noVNC__'s tool ribbon (hidden by default.)
 You might need this if you're trying to copy and paste the 23-character `kubeadmin` password.
 
 Just click the Clipboard icon in the tool ribbon, paste your `kubeadmin` password, and then click the Clipboard icon again to save your password in the copy buffer & dismiss the dialog. Now you can go paste your password in the cluster login box.
@@ -195,7 +195,7 @@ OpenShift will check each __source__ for new __catalog__ data (new Operators) ev
 
 When `oc-mirror` downloads Operators, it automatically creates __catalogs__ and __sources__.
 The __catalogs__ are automatically uploaded into the `mirror-registry`.
-But the __sources__, which are YAML files tell OpenShift where to find the __catalogs__, need to be added to OpenShift manually as a __"day 2"__ task. 
+But the __sources__, which are YAML files tell OpenShift where to find the __catalogs__, need to be added to OpenShift manually as a __"day 2"__ task.
 
 === Add custom CatalogSources
 
@@ -233,7 +233,8 @@ Please adjust the following command accordingly.
 
 [.salsa,source,bash,role=execute]
 ----
-oc create -f $HOME/oc-mirror-workspace/results-*/catalogSource-cs-redhat-operator-index.yaml
+[[ $NICKNAME == "salsa" ]] && oc create -f $HOME/oc-mirror-workspace/results-*/catalogSource-cs-redhat-operator-index.yaml
+[[ $NICKNAME != "salsa" ]] && oc create -f /mnt/high-side-data/oc-mirror-workspace/results-*/catalogSource-cs-redhat-operator-index.yaml
 ----
 [.output]
 ----
@@ -305,7 +306,8 @@ You can add the release signatures to your OpenShift cluster with this command.
 
 [.salsa,source,bash,role=execute]
 ----
-oc apply -f $HOME/oc-mirror-workspace/results-*/release-signatures/
+[[ $NICKNAME == "salsa" ]] && oc apply -f $HOME/oc-mirror-workspace/results-*/release-signatures/
+[[ $NICKNAME != "salsa" ]] && oc apply -f /mnt/high-side-data/oc-mirror-workspace/results-*/release-signatures/
 ----
 [.output]
 ----
@@ -337,8 +339,8 @@ The username / password for the [.highside]#highside# `mirror-registry` is `init
 
 [.salsa,source,bash,role=execute]
 ----
-podman login -u init -p salsapass $(hostname):8443
-podman login -u init -p discopass $(hostname):8443
+[[ $NICKNAME == "salsa" ]] && podman login -u init -p salsapass $(hostname):8443
+[[ $NICKNAME != "salsa" ]] && podman login -u init -p discopass $(hostname):8443
 
 DIGEST=$(oc image info -o json $HOSTNAME:8443/openshift/release-images:4.18.25-x86_64 | jq -r .contentDigest)
 oc adm upgrade --to-image=quay.io/openshift-release-dev/ocp-release@$DIGEST --allow-explicit-upgrade
@@ -346,7 +348,6 @@ oc adm upgrade --to-image=quay.io/openshift-release-dev/ocp-release@$DIGEST --al
 [.output]
 ----
 Login Succeeded!
-Error: logging into "disco" because you're on "salsa"
 
 warning: The requested upgrade image is not one of the available updates. You have used --allow-explicit-upgrade for the update to proceed anyway
 Requested update to release image quay.io/openshift-release-dev/ocp-release@sha256:e64464879cd1acdfa7112c1ac1d90039e1689189e0af197f34881c79decda933
