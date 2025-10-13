@@ -200,7 +200,7 @@ But the __sources__, which are YAML files tell OpenShift where to find the __cat
 === Add custom CatalogSources
 
 [NOTE]
-In a disconnected environment, https://docs.redhat.com/en/documentation/openshift_container_platform/4.18/html-single/disconnected_environments/index#olm-restricted-networks-operatorhub_olm-restricted-networks[you must disable the default `CatalogSources`].
+In a disconnected environment, https://docs.redhat.com/en/documentation/openshift_container_platform/{openshift_version}/html-single/disconnected_environments/index#olm-restricted-networks-operatorhub_olm-restricted-networks[you must disable the default `CatalogSources`].
 
 The default `CatalogSources` can be disabled individually, or all at once.
 The command below will disable all of the default __sources__ in a single command.
@@ -265,10 +265,10 @@ The terminal includes all of the standard `oc`, `kubectl`, `helm`, and `bash` to
 image::operator-web-terminal.png[Screenshot of the Web Terminal Operator installed and running]
 
 // == Add images with `podman`
-// https://docs.openshift.com/container-platform/4.18/post_installation_configuration/cluster-tasks.html#post-install-must-gather-disconnected
+// https://docs.redhat.com/container-platform/{openshift_version}/post_installation_configuration/cluster-tasks.html#post-install-must-gather-disconnected
 
 // == Remove default samples operator
-// https://docs.openshift.com/container-platform/4.18/openshift_images/configuring-samples-operator.html#configuring-samples-operator
+// https://docs.redhat.com/container-platform/{openshift_version}/openshift_images/configuring-samples-operator.html#configuring-samples-operator
 
 == Update your cluster
 
@@ -358,7 +358,7 @@ Applying cluster updates to the [.salsa]#salsa.lab# and [.highside]#disco.lab# c
 
 Your cluster(s) become unreachable when the update process replaces the old `console` and `apiserver` pods with new versions.
 
-OpenShift updates also update the nodes' operating system, https://docs.openshift.com/container-platform/4.15/architecture/architecture-rhcos.html[Red Hat Enterprise Linux CoreOS,window=_blank].
+OpenShift updates also update the nodes' operating system, https://docs.redhat.com/en/documentation/openshift_container_platform/{openshift_version}/html-single/architecture/index#rhcos-about_architecture-rhcos[Red Hat Enterprise Linux CoreOS,window=_blank].
 You get two updates for the price of one!
 
 Your cluster(s) will become unreachable again when the Single Node of OpenShift reboots to apply `kernel` and other critical system updates.

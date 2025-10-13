@@ -1,7 +1,7 @@
 = Disconnected Overview
 
 Let's start with an overview of OpenShift's disconnected installation process.
-You can refer to the https://docs.openshift.com/container-platform/{openshift_version}/installing/disconnected_install/index.html[OpenShift documentation,window=_blank] for more details.
+You can refer to the https://docs.redhat.com/en/documentation/openshift_container_platform/{openshift_version}/html-single/disconnected_environments/index#installing-disconnected-environments[OpenShift documentation,window=_blank] for more details.
 
 **The disconnected installation steps are:**
 
@@ -54,7 +54,7 @@ OpenShift provides two primary tools that are used to create disconnected cluste
 
 {counter:tools}. `mirror-registry` - An _image registry_ that serves container images to the OpenShift nodes
 
-** This is a https://docs.openshift.com/container-platform/{openshift_version}/installing/disconnected_install/installing-mirroring-creating-registry.html[smaller & streamlined,window=_blank] version of the Red Hat Quay Image Registry
+** This is a https://docs.redhat.com/en/documentation/openshift_container_platform/{openshift_version}/html-single/disconnected_environments/index#installing-mirroring-creating-registry[smaller & streamlined,window=_blank] version of the Red Hat Quay Image Registry
 
 We will also download two additional tools that will be used later on the [.highside]#highside system#.
 
